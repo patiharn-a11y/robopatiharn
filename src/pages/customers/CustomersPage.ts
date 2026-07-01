@@ -8,8 +8,8 @@ export class CustomersPage {
   readonly page: Page;
   readonly header: Header;
   readonly sidebar: Sidebar;
-  
-  // Headers
+
+  // Header / Search
   readonly breadcrumbs: Locator;
   readonly breadcrumbsFirstItem: Locator;
   readonly customersHeader: Locator;
@@ -20,7 +20,7 @@ export class CustomersPage {
   readonly searchFilterDropdownOptionIIC: Locator;
   readonly searchFilterDropdownOptionAccountID: Locator;
 
-  // Table
+  // ตาราง — row หลัก (customer-row-0)
   readonly customersTableFirstRowName: Locator;
   readonly customersTableFirstRowCost: Locator;
   readonly customersTableFirstRowAUM: Locator;
@@ -30,21 +30,22 @@ export class CustomersPage {
   readonly customersTableFirstRowExpandButton: Locator;
   readonly customersTableFirstRowActionButton: Locator;
 
-  readonly customersTableFirstRowExpandedName: Locator;
-  readonly customersTableFirstRowExpandedCost: Locator;
-  readonly customersTableFirstRowExpandedAUM: Locator;
-  readonly customersTableFirstRowExpandedGainLoss: Locator;
-  readonly customersTableFirstRowExpandedIIC: Locator;
-  readonly customersTableFirstRowExpandedLineChatStatus: Locator;
-  readonly customersTableFirstRowExpandedActionButton: Locator;  
+  // ตาราง — sub-row แรกหลัง Expand (customer-row-0.0)
+  readonly customersTableFirstSubRowName: Locator;
+  readonly customersTableFirstSubRowCost: Locator;
+  readonly customersTableFirstSubRowAUM: Locator;
+  readonly customersTableFirstSubRowGainLoss: Locator;
+  readonly customersTableFirstSubRowIIC: Locator;
+  readonly customersTableFirstSubRowLineChatStatus: Locator;
+  readonly customersTableFirstSubRowActionButton: Locator;
 
+  private _isExpanded = false;
 
-    constructor(page: Page) {
+  constructor(page: Page) {
     this.page = page;
     this.header = new Header(page);
     this.sidebar = new Sidebar(page, this.header);
 
-    // Headers
     this.breadcrumbs =                          page.getByTestId('site-breadcrumb');
     this.breadcrumbsFirstItem =                 page.getByTestId('breadcrumb-item-0');
     this.customersHeader =                      page.getByRole('heading', { name: 'Customers' });
@@ -55,7 +56,6 @@ export class CustomersPage {
     this.searchFilterDropdownOptionIIC =        page.getByTestId('search-filter-dropdown-item-iic');
     this.searchFilterDropdownOptionAccountID =  page.getByTestId('search-filter-dropdown-item-accountId');
 
-    // Table & Pagination
     this.customersTableFirstRowName =           page.getByTestId('customer-row-0').getByTestId('customer-cell-name');
     this.customersTableFirstRowCost =           page.getByTestId('customer-row-0').getByTestId('customer-cell-cost');
     this.customersTableFirstRowAUM =            page.getByTestId('customer-row-0').getByTestId('customer-cell-aum');
@@ -65,14 +65,22 @@ export class CustomersPage {
     this.customersTableFirstRowExpandButton =   page.getByTestId('customer-row-0').getByTestId('customer-cell-expand');
     this.customersTableFirstRowActionButton =   page.getByTestId('customer-row-0').getByTestId('customer-cell-action');
 
-    this.customersTableFirstRowExpandedName =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-name');
-    this.customersTableFirstRowExpandedCost =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-cost');
-    this.customersTableFirstRowExpandedAUM =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-aum');
-    this.customersTableFirstRowExpandedGainLoss =       page.getByTestId('customer-row-0.0').getByTestId('customer-cell-plAmount');
-    this.customersTableFirstRowExpandedIIC =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-iicName');
-    this.customersTableFirstRowExpandedLineChatStatus = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-lineOpenId');
-    this.customersTableFirstRowExpandedActionButton =   page.getByTestId('customer-row-0.0').getByTestId('customer-table-row-btn-actions');
+    this.customersTableFirstSubRowName =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-name');
+    this.customersTableFirstSubRowCost =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-cost');
+    this.customersTableFirstSubRowAUM =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-aum');
+    this.customersTableFirstSubRowGainLoss =       page.getByTestId('customer-row-0.0').getByTestId('customer-cell-plAmount');
+    this.customersTableFirstSubRowIIC =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-iicName');
+    this.customersTableFirstSubRowLineChatStatus = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-lineOpenId');
+    this.customersTableFirstSubRowActionButton =   page.getByTestId('customer-row-0.0').getByTestId('customer-table-row-btn-actions');
+  }
 
+  // ตรวจสอบว่า Action Button ไม่แสดงบน row หลัก
+  // และถ้า Expand อยู่ จะตรวจ sub-row ด้วย
+  async expectActionButtonNotVisible() {
+    await expect(this.customersTableFirstRowActionButton).not.toBeVisible();
+    if (this._isExpanded) {
+      await expect(this.customersTableFirstSubRowActionButton).not.toBeVisible();
+    }
   }
 
   async navigateTo() {
@@ -81,72 +89,82 @@ export class CustomersPage {
     await expect(this.page).toHaveURL(/.*\/customers/);
   }
 
-  async searchAndNavigate(searchType: 'name' | 'iic' | 'accountId', searchValue: string) {
-    // 1. Select the filter
-    await this.searchFilterDropdown.click();
-    const filterOptions = {
-        name: this.searchFilterDropdownOptionName,
-        iic: this.searchFilterDropdownOptionIIC,
-        accountId: this.searchFilterDropdownOptionAccountID
-    };
-    await filterOptions[searchType].click();
-
-    // 2. Perform search
-    await this.searchInput.fill(searchValue);
-    await this.searchButton.click();
-
-    // 3. Logic to determine expected Account ID
-    let expectedAccId: string;
-
-    if (searchType === 'accountId') {
-        expectedAccId = searchValue;
-    } else {
-        // Find the customer object that matches the name/iic provided
-        // This assumes you store the data as an array or object in customerData.ts
-        const customer = Object.values(Customers).find(c => c.name === searchValue || c.iic === searchValue);
-        expectedAccId = customer ? customer.accountNumber1 : searchValue;
-    }
-
-    // 4. Perform the click to navigate
-    if (searchType === 'accountId') {
-      await this.customersTableFirstRowName.click();
-    } else {
-      await this.customersTableFirstRowExpandButton.click();
-      await this.customersTableFirstRowExpandedName.click();
-    }
-
-    // 5. Return the ID so the test can assert the URL
-    return expectedAccId;
-  }
-
-  async searchAndExpand(searchType: 'name' | 'iic' | 'accountId', searchValue: string) {
-    // 1. Select the filter
-    await this.searchFilterDropdown.click();
+  // เลือก Filter ประเภทที่ต้องการ, ใส่คำค้นหา, กดค้นหา
+  // แล้วรอจนกว่าผลลัพธ์ที่ถูกต้องจะปรากฏใน row แรกของตาราง
+  private async performSearch(searchType: 'name' | 'iic' | 'accountId', searchValue: string) {
     const filterOptions = {
       name: this.searchFilterDropdownOptionName,
       iic: this.searchFilterDropdownOptionIIC,
-      accountId: this.searchFilterDropdownOptionAccountID
+      accountId: this.searchFilterDropdownOptionAccountID,
     };
-    await filterOptions[searchType].click();
 
-    // 2. Perform search
+    await this.searchFilterDropdown.click();
+    await filterOptions[searchType].waitFor({ state: 'visible' });
+    await filterOptions[searchType].click();
+    await filterOptions[searchType].waitFor({ state: 'hidden' });
+
     await this.searchInput.fill(searchValue);
     await this.searchButton.click();
 
-    // 3. Logic to determine expected Account ID
-    let expectedAccId: string;
+    if (searchType === 'name') {
+      await expect(this.customersTableFirstRowName).toContainText(searchValue);
+    } else if (searchType === 'iic') {
+      await expect(this.customersTableFirstRowIIC).toContainText(searchValue);
+    } else {
+      await this.customersTableFirstRowName.waitFor({ state: 'visible' });
+    }
+  }
+
+  // ตรวจสอบจาก customerData.ts ว่า Customer คนนี้มีมากกว่า 1 Account หรือไม่
+  // โดยดูว่ามี accountNumber2 กำหนดไว้หรือเปล่า
+  private isMultiAccount(searchType: 'name' | 'iic' | 'accountId', searchValue: string): boolean {
+    if (searchType === 'accountId') return false;
+    const customer = Object.values(Customers).find(c => c.name === searchValue || c.iic === searchValue);
+    return !!customer?.accountNumber2;
+  }
+
+  // ค้นหา Customer แล้วนำทางเข้าหน้า Customer Detail
+  // - มีหลาย Account → กด Expand แล้วคลิก sub-row แรก
+  // - มี 1 Account   → คลิก row หลักเลย
+  // คืนค่า Account ID แรกเพื่อให้ Test นำไปตรวจสอบ URL
+  async searchAndNavigate(searchType: 'name' | 'iic' | 'accountId', searchValue: string) {
+    await this.performSearch(searchType, searchValue);
 
     if (searchType === 'accountId') {
-      expectedAccId = searchValue;
-    } else {
-      const customer = Object.values(Customers).find(c => c.name === searchValue || c.iic === searchValue);
-      expectedAccId = customer ? customer.accountNumber1 : searchValue;
+      this._isExpanded = false;
+      await this.customersTableFirstRowName.click();
+      return searchValue;
     }
 
-    // 4. Expand row (skip for accountId — direct result, no expansion needed)
-    if (searchType !== 'accountId') {
+    const customer = Object.values(Customers).find(c => c.name === searchValue || c.iic === searchValue);
+    const expectedAccId = customer?.accountNumber1 ?? searchValue;
+
+    if (this.isMultiAccount(searchType, searchValue)) {
       await this.customersTableFirstRowExpandButton.click();
+      await this.customersTableFirstSubRowName.waitFor({ state: 'visible' });
+      await this.customersTableFirstSubRowName.click();
+      this._isExpanded = true;
+    } else {
+      await this.customersTableFirstRowName.click();
+      this._isExpanded = false;
     }
 
+    return expectedAccId;
+  }
+
+  // ค้นหา Customer แล้ว Expand row เพื่อดู sub-rows (กรณีมีหลาย Account)
+  // - มีหลาย Account → กด Expand และรอ sub-row ปรากฏ (_isExpanded = true)
+  // - มี 1 Account   → ไม่ต้อง Expand (_isExpanded = false)
+  async searchAndExpand(searchType: 'name' | 'iic' | 'accountId', searchValue: string) {
+    await this.performSearch(searchType, searchValue);
+
+    if (searchType === 'accountId' || !this.isMultiAccount(searchType, searchValue)) {
+      this._isExpanded = false;
+      return;
+    }
+
+    await this.customersTableFirstRowExpandButton.click();
+    await this.customersTableFirstSubRowName.waitFor({ state: 'visible' });
+    this._isExpanded = true;
   }
 }
