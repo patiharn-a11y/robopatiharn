@@ -7,15 +7,15 @@ import { CreateUserPage, UserDataInputs } from '../../src/pages/user-management/
 import { createUserData, editAllFieldsData } from '../../test-data/userData';
 
 test.describe('User Management Workflows & Audit Verification', () => {
-  let loginPage: LoginPage;
-  let auditLogsPage: AdminAuditLogsPage;
-  let userPage: UserManagementPage;
-  let createUserPage: CreateUserPage;
+  let loginPage      : LoginPage;
+  let auditLogsPage  : AdminAuditLogsPage;
+  let userPage       : UserManagementPage;
+  let createUserPage : CreateUserPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    auditLogsPage = new AdminAuditLogsPage(page);
-    userPage = new UserManagementPage(page);
+    loginPage      = new LoginPage(page);
+    auditLogsPage  = new AdminAuditLogsPage(page);
+    userPage       = new UserManagementPage(page);
     createUserPage = new CreateUserPage(page);
 
     await loginPage.login(process.env.SUPERADMIN_USERNAME!, process.env.SUPERADMIN_PASSWORD!);

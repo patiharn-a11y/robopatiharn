@@ -12,26 +12,26 @@ import { InvoicesPage } from '../../src/pages/InvoicesPage';
 import { Customers } from '../../test-data/customerData';
 
 test.describe('User Permission Other Role', () => {
-  let loginPage: LoginPage;
-  let header: Header;
-  let sidebar: Sidebar;
-  let userManagementPage: UserManagementPage;
-  let permissionSettingPage: PermissionSettingPage;
-  let customersPage: CustomersPage;
-  let customersDetailPage: CustomersDetailPage;
-  let incomesPage: IncomesPage;
-  let invoicesPage: InvoicesPage;
+  let loginPage             : LoginPage;
+  let header                : Header;
+  let sidebar               : Sidebar;
+  let userManagementPage    : UserManagementPage;
+  let permissionSettingPage : PermissionSettingPage;
+  let customersPage         : CustomersPage;
+  let customersDetailPage   : CustomersDetailPage;
+  let incomesPage           : IncomesPage;
+  let invoicesPage          : InvoicesPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    header = new Header(page);
-    sidebar = new Sidebar(page, header);
-    userManagementPage = new UserManagementPage(page);
+    loginPage             = new LoginPage(page);
+    header                = new Header(page);
+    sidebar               = new Sidebar(page, header);
+    userManagementPage    = new UserManagementPage(page);
     permissionSettingPage = new PermissionSettingPage(page);
-    customersPage = new CustomersPage(page);
-    customersDetailPage = new CustomersDetailPage(page);
-    incomesPage = new IncomesPage(page);
-    invoicesPage = new InvoicesPage(page);
+    customersPage         = new CustomersPage(page);
+    customersDetailPage   = new CustomersDetailPage(page);
+    incomesPage           = new IncomesPage(page);
+    invoicesPage          = new InvoicesPage(page);
 
     await test.step('Prerequisite: Login ด้วย Super Admin และไปที่หน้า Permission Settings ของ IIC Account', async () => {
       await loginPage.login(process.env.SUPERADMIN_USERNAME!, process.env.SUPERADMIN_PASSWORD!);
@@ -388,26 +388,26 @@ test.describe('User Permission Other Role', () => {
 });
 
 test.describe('User Permission Other Role Presets', () => {
-  let loginPage: LoginPage;
-  let header: Header;
-  let sidebar: Sidebar;
-  let userManagementPage: UserManagementPage;
-  let permissionSettingPage: PermissionSettingPage;
-  let customersPage: CustomersPage;
-  let customersDetailPage: CustomersDetailPage;
-  let incomesPage: IncomesPage;
-  let invoicesPage: InvoicesPage;
+  let loginPage             : LoginPage;
+  let header                : Header;
+  let sidebar               : Sidebar;
+  let userManagementPage    : UserManagementPage;
+  let permissionSettingPage : PermissionSettingPage;
+  let customersPage         : CustomersPage;
+  let customersDetailPage   : CustomersDetailPage;
+  let incomesPage           : IncomesPage;
+  let invoicesPage          : InvoicesPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    header = new Header(page);
-    sidebar = new Sidebar(page, header);
-    userManagementPage = new UserManagementPage(page);
+    loginPage             = new LoginPage(page);
+    header                = new Header(page);
+    sidebar               = new Sidebar(page, header);
+    userManagementPage    = new UserManagementPage(page);
     permissionSettingPage = new PermissionSettingPage(page);
-    customersPage = new CustomersPage(page);
-    customersDetailPage = new CustomersDetailPage(page);
-    incomesPage = new IncomesPage(page);
-    invoicesPage = new InvoicesPage(page);
+    customersPage         = new CustomersPage(page);
+    customersDetailPage   = new CustomersDetailPage(page);
+    incomesPage           = new IncomesPage(page);
+    invoicesPage          = new InvoicesPage(page);
 
     await test.step('Prerequisite: Login ด้วย Super Admin และไปที่หน้า Permission Settings ของ IIC Account', async () => {
       await loginPage.login(process.env.SUPERADMIN_USERNAME!, process.env.SUPERADMIN_PASSWORD!);

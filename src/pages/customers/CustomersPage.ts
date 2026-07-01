@@ -5,73 +5,73 @@ import { Sidebar } from '../../components/Sidebar';
 import { Customers } from '../../../test-data/customerData';
 
 export class CustomersPage {
-  readonly page: Page;
-  readonly header: Header;
-  readonly sidebar: Sidebar;
+  readonly page                                    : Page;
+  readonly header                                  : Header;
+  readonly sidebar                                 : Sidebar;
 
   // Header / Search
-  readonly breadcrumbs: Locator;
-  readonly breadcrumbsFirstItem: Locator;
-  readonly customersHeader: Locator;
-  readonly searchInput: Locator;
-  readonly searchButton: Locator;
-  readonly searchFilterDropdown: Locator;
-  readonly searchFilterDropdownOptionName: Locator;
-  readonly searchFilterDropdownOptionIIC: Locator;
-  readonly searchFilterDropdownOptionAccountID: Locator;
+  readonly breadcrumbs                             : Locator;
+  readonly breadcrumbsFirstItem                    : Locator;
+  readonly customersHeader                         : Locator;
+  readonly searchInput                             : Locator;
+  readonly searchButton                            : Locator;
+  readonly searchFilterDropdown                    : Locator;
+  readonly searchFilterDropdownOptionName          : Locator;
+  readonly searchFilterDropdownOptionIIC           : Locator;
+  readonly searchFilterDropdownOptionAccountID     : Locator;
 
   // ตาราง — row หลัก (customer-row-0)
-  readonly customersTableFirstRowName: Locator;
-  readonly customersTableFirstRowCost: Locator;
-  readonly customersTableFirstRowAUM: Locator;
-  readonly customersTableFirstRowGainLoss: Locator;
-  readonly customersTableFirstRowIIC: Locator;
-  readonly customersTableFirstRowLineChatStatus: Locator;
-  readonly customersTableFirstRowExpandButton: Locator;
-  readonly customersTableFirstRowActionButton: Locator;
+  readonly customersTableFirstRowName              : Locator;
+  readonly customersTableFirstRowCost              : Locator;
+  readonly customersTableFirstRowAUM               : Locator;
+  readonly customersTableFirstRowGainLoss          : Locator;
+  readonly customersTableFirstRowIIC               : Locator;
+  readonly customersTableFirstRowLineChatStatus    : Locator;
+  readonly customersTableFirstRowExpandButton      : Locator;
+  readonly customersTableFirstRowActionButton      : Locator;
 
   // ตาราง — sub-row แรกหลัง Expand (customer-row-0.0)
-  readonly customersTableFirstSubRowName: Locator;
-  readonly customersTableFirstSubRowCost: Locator;
-  readonly customersTableFirstSubRowAUM: Locator;
-  readonly customersTableFirstSubRowGainLoss: Locator;
-  readonly customersTableFirstSubRowIIC: Locator;
-  readonly customersTableFirstSubRowLineChatStatus: Locator;
-  readonly customersTableFirstSubRowActionButton: Locator;
+  readonly customersTableFirstSubRowName           : Locator;
+  readonly customersTableFirstSubRowCost           : Locator;
+  readonly customersTableFirstSubRowAUM            : Locator;
+  readonly customersTableFirstSubRowGainLoss       : Locator;
+  readonly customersTableFirstSubRowIIC            : Locator;
+  readonly customersTableFirstSubRowLineChatStatus : Locator;
+  readonly customersTableFirstSubRowActionButton   : Locator;
 
   private _isExpanded = false;
 
   constructor(page: Page) {
-    this.page = page;
-    this.header = new Header(page);
-    this.sidebar = new Sidebar(page, this.header);
+    this.page                                    = page;
+    this.header                                  = new Header(page);
+    this.sidebar                                 = new Sidebar(page, this.header);
 
-    this.breadcrumbs =                          page.getByTestId('site-breadcrumb');
-    this.breadcrumbsFirstItem =                 page.getByTestId('breadcrumb-item-0');
-    this.customersHeader =                      page.getByRole('heading', { name: 'Customers' });
-    this.searchInput =                          page.getByTestId('search-filter-input-query');
-    this.searchButton =                         page.getByTestId('search-filter-btn-submit');
-    this.searchFilterDropdown =                 page.getByTestId('search-filter-dropdown-trigger');
-    this.searchFilterDropdownOptionName =       page.getByTestId('search-filter-dropdown-item-name');
-    this.searchFilterDropdownOptionIIC =        page.getByTestId('search-filter-dropdown-item-iic');
-    this.searchFilterDropdownOptionAccountID =  page.getByTestId('search-filter-dropdown-item-accountId');
+    this.breadcrumbs                             = page.getByTestId('site-breadcrumb');
+    this.breadcrumbsFirstItem                    = page.getByTestId('breadcrumb-item-0');
+    this.customersHeader                         = page.getByRole('heading', { name: 'Customers' });
+    this.searchInput                             = page.getByTestId('search-filter-input-query');
+    this.searchButton                            = page.getByTestId('search-filter-btn-submit');
+    this.searchFilterDropdown                    = page.getByTestId('search-filter-dropdown-trigger');
+    this.searchFilterDropdownOptionName          = page.getByTestId('search-filter-dropdown-item-name');
+    this.searchFilterDropdownOptionIIC           = page.getByTestId('search-filter-dropdown-item-iic');
+    this.searchFilterDropdownOptionAccountID     = page.getByTestId('search-filter-dropdown-item-accountId');
 
-    this.customersTableFirstRowName =           page.getByTestId('customer-row-0').getByTestId('customer-cell-name');
-    this.customersTableFirstRowCost =           page.getByTestId('customer-row-0').getByTestId('customer-cell-cost');
-    this.customersTableFirstRowAUM =            page.getByTestId('customer-row-0').getByTestId('customer-cell-aum');
-    this.customersTableFirstRowGainLoss =       page.getByTestId('customer-row-0').getByTestId('customer-cell-plAmount');
-    this.customersTableFirstRowIIC =            page.getByTestId('customer-row-0').getByTestId('customer-cell-iicName');
-    this.customersTableFirstRowLineChatStatus = page.getByTestId('customer-row-0').getByTestId('customer-cell-lineOpenId');
-    this.customersTableFirstRowExpandButton =   page.getByTestId('customer-row-0').getByTestId('customer-cell-expand');
-    this.customersTableFirstRowActionButton =   page.getByTestId('customer-row-0').getByTestId('customer-cell-action');
+    this.customersTableFirstRowName              = page.getByTestId('customer-row-0').getByTestId('customer-cell-name');
+    this.customersTableFirstRowCost              = page.getByTestId('customer-row-0').getByTestId('customer-cell-cost');
+    this.customersTableFirstRowAUM               = page.getByTestId('customer-row-0').getByTestId('customer-cell-aum');
+    this.customersTableFirstRowGainLoss          = page.getByTestId('customer-row-0').getByTestId('customer-cell-plAmount');
+    this.customersTableFirstRowIIC               = page.getByTestId('customer-row-0').getByTestId('customer-cell-iicName');
+    this.customersTableFirstRowLineChatStatus    = page.getByTestId('customer-row-0').getByTestId('customer-cell-lineOpenId');
+    this.customersTableFirstRowExpandButton      = page.getByTestId('customer-row-0').getByTestId('customer-cell-expand');
+    this.customersTableFirstRowActionButton      = page.getByTestId('customer-row-0').getByTestId('customer-cell-action');
 
-    this.customersTableFirstSubRowName =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-name');
-    this.customersTableFirstSubRowCost =           page.getByTestId('customer-row-0.0').getByTestId('customer-cell-cost');
-    this.customersTableFirstSubRowAUM =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-aum');
-    this.customersTableFirstSubRowGainLoss =       page.getByTestId('customer-row-0.0').getByTestId('customer-cell-plAmount');
-    this.customersTableFirstSubRowIIC =            page.getByTestId('customer-row-0.0').getByTestId('customer-cell-iicName');
+    this.customersTableFirstSubRowName           = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-name');
+    this.customersTableFirstSubRowCost           = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-cost');
+    this.customersTableFirstSubRowAUM            = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-aum');
+    this.customersTableFirstSubRowGainLoss       = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-plAmount');
+    this.customersTableFirstSubRowIIC            = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-iicName');
     this.customersTableFirstSubRowLineChatStatus = page.getByTestId('customer-row-0.0').getByTestId('customer-cell-lineOpenId');
-    this.customersTableFirstSubRowActionButton =   page.getByTestId('customer-row-0.0').getByTestId('customer-table-row-btn-actions');
+    this.customersTableFirstSubRowActionButton   = page.getByTestId('customer-row-0.0').getByTestId('customer-table-row-btn-actions');
   }
 
   // ตรวจสอบว่า Action Button ไม่แสดงบน row หลัก

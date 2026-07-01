@@ -26,37 +26,37 @@ export type PermissionPath =
   | 'portfolioModels';
 
 export class PermissionSettingPage {
-  readonly page: Page;
-  readonly header: Header;
-  readonly sidebar: Sidebar;
+  readonly page                  : Page;
+  readonly header                : Header;
+  readonly sidebar               : Sidebar;
 
-  readonly selectAllButton: Locator;
-  readonly clearAllButton: Locator;
-  readonly saveButton: Locator;
+  readonly selectAllButton       : Locator;
+  readonly clearAllButton        : Locator;
+  readonly saveButton            : Locator;
 
-  readonly presetSuperAdmin: Locator;
-  readonly presetAdmin: Locator;
-  readonly presetMD: Locator;
-  readonly presetAssistant: Locator;
-  readonly presetIIC: Locator;
-  readonly presetAccountant: Locator;
-  readonly presetCustomerSupport:  Locator;
+  readonly presetSuperAdmin      : Locator;
+  readonly presetAdmin           : Locator;
+  readonly presetMD              : Locator;
+  readonly presetAssistant       : Locator;
+  readonly presetIIC             : Locator;
+  readonly presetAccountant      : Locator;
+  readonly presetCustomerSupport : Locator;
 
   constructor(page: Page) {
-    this.page = page;
-    this.header = new Header(page);
-    this.sidebar = new Sidebar(page, this.header);
+    this.page                  = page;
+    this.header                = new Header(page);
+    this.sidebar               = new Sidebar(page, this.header);
 
-    this.selectAllButton =  page.getByTestId('permission-btn-select-all');
-    this.clearAllButton =   page.getByTestId('permission-btn-clear-all');
-    this.saveButton =       page.getByTestId('permission-settings-btn-save');
+    this.selectAllButton       = page.getByTestId('permission-btn-select-all');
+    this.clearAllButton        = page.getByTestId('permission-btn-clear-all');
+    this.saveButton            = page.getByTestId('permission-settings-btn-save');
 
-    this.presetSuperAdmin = page.getByTestId('permission-settings-btn-preset-SUPER_ADMIN');
-    this.presetAdmin = page.getByTestId('permission-settings-btn-preset-ADMIN');
-    this.presetMD = page.getByTestId('permission-settings-btn-preset-MD');
-    this.presetAssistant = page.getByTestId('permission-settings-btn-preset-ASSISTANT');
-    this.presetIIC = page.getByTestId('permission-settings-btn-preset-IIC');
-    this.presetAccountant = page.getByTestId('permission-settings-btn-preset-ACCOUNTANT');
+    this.presetSuperAdmin      = page.getByTestId('permission-settings-btn-preset-SUPER_ADMIN');
+    this.presetAdmin           = page.getByTestId('permission-settings-btn-preset-ADMIN');
+    this.presetMD              = page.getByTestId('permission-settings-btn-preset-MD');
+    this.presetAssistant       = page.getByTestId('permission-settings-btn-preset-ASSISTANT');
+    this.presetIIC             = page.getByTestId('permission-settings-btn-preset-IIC');
+    this.presetAccountant      = page.getByTestId('permission-settings-btn-preset-ACCOUNTANT');
     this.presetCustomerSupport = page.getByTestId('permission-settings-btn-preset-CUSTOMER_SUPPORT');
   }
 
@@ -147,11 +147,12 @@ export class PermissionSettingPage {
       },
     }
   }
-  async grantAllExcept(paths: PermissionPath[]) {
+
   // Function grantAllExcept เป็น function ไว้สำหรับเลือก permission ทั้งหมดตั้งต้น และกดเลือกเพื่อไม่ให้สิทธิ์แก่ permission ที่ใส่ใน arguments
   // ถ้าเว้นค่า arguments ว่างหมายความว่าให้มีทุก permission
   // ตัวอย่าง await permissionSettingPage.grantAllExcept(['customers']) หมายถึงเข้าได้ทุกสิทธิ์ยกเว้น Customers
   // กรณีที่ permission ถูก nested ให้เรียกโดยมีจุด เช่น customers.detail, customers.detail.profile, incomes.chart
+  async grantAllExcept(paths: PermissionPath[]) {
     await this.selectAllButton.click();
 
     for (const path of paths) {
@@ -173,16 +174,16 @@ export class PermissionSettingPage {
     await this.saveButton.click();
   }
 
-  async applyPreset(preset: 'superAdmin' | 'admin' | 'MD' | 'assistant' | 'IIC' | 'accountant' | 'customerSupport') {
   // Function applyPreset มีไว้เพื่อเลือกปุ่ม Permission Presets ตามที่ตั้งค่า Config ไว้ ไม่เกี่ยวกับการเปลี่ยน Role
+  async applyPreset(preset: 'superAdmin' | 'admin' | 'MD' | 'assistant' | 'IIC' | 'accountant' | 'customerSupport') {
     const presetMap = {
-      superAdmin:      this.presetSuperAdmin,
-      admin:           this.presetAdmin,
-      MD:              this.presetMD,
-      assistant:       this.presetAssistant,
-      IIC:             this.presetIIC,
-      accountant:      this.presetAccountant,
-      customerSupport: this.presetCustomerSupport,
+      superAdmin      : this.presetSuperAdmin,
+      admin           : this.presetAdmin,
+      MD              : this.presetMD,
+      assistant       : this.presetAssistant,
+      IIC             : this.presetIIC,
+      accountant      : this.presetAccountant,
+      customerSupport : this.presetCustomerSupport,
     };
     await presetMap[preset].click();
     await this.saveButton.click();

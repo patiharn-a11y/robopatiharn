@@ -12,24 +12,24 @@ function generateThaiCitizenId(): string {
 }
 
 test.describe('User Creation', () => {
-  let loginPage: LoginPage;
-  let userManagementPage: UserManagementPage;
-  let createUserPage: CreateUserPage;
+  let loginPage          : LoginPage;
+  let userManagementPage : UserManagementPage;
+  let createUserPage     : CreateUserPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
+    loginPage          = new LoginPage(page);
     userManagementPage = new UserManagementPage(page);
-    createUserPage = new CreateUserPage(page);
+    createUserPage     = new CreateUserPage(page);
     await loginPage.login(process.env.SUPERADMIN_USERNAME!, process.env.SUPERADMIN_PASSWORD!);
   });
 
   test('TC-01 สร้าง IIC User ใหม่พร้อม Role IIC และตรวจสอบว่าปรากฏในรายการ', async ({ page }) => {
-    const nowPlus7 = new Date(Date.now() + 7 * 60 * 60 * 1000);
+    const nowPlus7     = new Date(Date.now() + 7 * 60 * 60 * 1000);
     const uniqueSuffix = nowPlus7.toISOString().replace(/\D/g, '').slice(0, 14);
-    const userName = `test iic user ${uniqueSuffix}`;
-    const userEmail = `testiic+${uniqueSuffix}@example.com`;
-    const userIICCode = `IIC${uniqueSuffix}`;
-    const citizenId = generateThaiCitizenId();
+    const userName     = `test iic user ${uniqueSuffix}`;
+    const userEmail    = `testiic+${uniqueSuffix}@example.com`;
+    const userIICCode  = `IIC${uniqueSuffix}`;
+    const citizenId    = generateThaiCitizenId();
 
     await test.step('1. ไปที่หน้า User Management และคลิก Create User', async () => {
       await userManagementPage.navigateTo();
@@ -39,22 +39,22 @@ test.describe('User Creation', () => {
 
     await test.step('2. กรอกข้อมูล User ทุก field ที่จำเป็น', async () => {
       await createUserPage.fillUserForm({
-        name: userName,
-        email: userEmail,
-        phone: '0812345678',
-        iicCode: userIICCode,
+        name               : userName,
+        email              : userEmail,
+        phone              : '0812345678',
+        iicCode            : userIICCode,
         citizenId,
-        addressNumber: '123',
-        addressMoo: '1',
-        addressBuilding: 'Test Village',
-        addressSoi: 'Test Soi',
-        addressRoad: 'Test Road',
-        addressSubdistrict: 'Test Subdistrict',
-        addressDistrict: 'Test District',
-        addressProvince: 'Test Province',
-        addressPostalCode: '10210',
-        bankBranch: '002',
-        bankAccountNumber: '1234567890',
+        addressNumber      : '123',
+        addressMoo         : '1',
+        addressBuilding    : 'Test Village',
+        addressSoi         : 'Test Soi',
+        addressRoad        : 'Test Road',
+        addressSubdistrict : 'Test Subdistrict',
+        addressDistrict    : 'Test District',
+        addressProvince    : 'Test Province',
+        addressPostalCode  : '10210',
+        bankBranch         : '002',
+        bankAccountNumber  : '1234567890',
       });
     });
 

@@ -5,65 +5,65 @@ import { Sidebar } from '../../components/Sidebar';
 import { CreateUserPage } from './CreateUserPage';
 
 export class UserManagementPage {
-  readonly page: Page;
+  readonly page                             : Page;
 
   // Components
-  readonly header: Header;
-  readonly sidebar: Sidebar;
-  readonly createUserPage: CreateUserPage;
+  readonly header                           : Header;
+  readonly sidebar                          : Sidebar;
+  readonly createUserPage                   : CreateUserPage;
 
   // Headers
-  readonly userManagementHeader: Locator;
-  readonly breadcrumbs: Locator;
+  readonly userManagementHeader             : Locator;
+  readonly breadcrumbs                      : Locator;
 
   // Filters
-  readonly searchBar: Locator;
-  readonly permissionButton: Locator;
-  readonly createUserButton: Locator;
+  readonly searchBar                        : Locator;
+  readonly permissionButton                 : Locator;
+  readonly createUserButton                 : Locator;
 
   // Tabs
-  readonly iicUsersTab: Locator;
-  readonly customerSupportTab: Locator;
-  readonly executiveTab: Locator;
-  readonly othersTab: Locator;
-  readonly inactiveTab: Locator;
+  readonly iicUsersTab                      : Locator;
+  readonly customerSupportTab               : Locator;
+  readonly executiveTab                     : Locator;
+  readonly othersTab                        : Locator;
+  readonly inactiveTab                      : Locator;
 
   // IIC Users Table
-  readonly userTableHeader: Locator;
-  readonly userTableFirstRowActionButtons: Locator;
-  readonly userTableActionOptionsView: Locator;
-  readonly userTableActionOptionsEdit: Locator;
-  readonly userTableActionOptionsPermission: Locator;
+  readonly userTableHeader                  : Locator;
+  readonly userTableFirstRowActionButtons   : Locator;
+  readonly userTableActionOptionsView       : Locator;
+  readonly userTableActionOptionsEdit       : Locator;
+  readonly userTableActionOptionsPermission : Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    this.page                             = page;
 
     // Components
-    this.header = new Header(page);
-    this.sidebar = new Sidebar(page, this.header);
-    this.createUserPage = new CreateUserPage(page);
+    this.header                           = new Header(page);
+    this.sidebar                          = new Sidebar(page, this.header);
+    this.createUserPage                   = new CreateUserPage(page);
 
     // Headers
-    this.userManagementHeader = page.getByText('Users', { exact: true });
-    this.breadcrumbs = page.getByRole('navigation', { name: 'Breadcrumb' });
+    this.userManagementHeader             = page.getByText('Users', { exact: true });
+    this.breadcrumbs                      = page.getByRole('navigation', { name: 'Breadcrumb' });
 
     // Filters
-    this.searchBar = page.getByPlaceholder('ค้นหา...');
-    this.permissionButton = page.getByRole('button', { name: 'Permissions' });
-    this.createUserButton = page.getByRole('button', { name: 'Create User' });
+    this.searchBar                        = page.getByPlaceholder('ค้นหา...');
+    this.permissionButton                 = page.getByRole('button', { name: 'Permissions' });
+    this.createUserButton                 = page.getByRole('button', { name: 'Create User' });
 
     // Tabs
-    this.iicUsersTab = page.getByRole('tab', { name: 'IIC' });
-    this.customerSupportTab = page.getByRole('tab', { name: 'Customer Support' });
-    this.executiveTab = page.getByRole('tab', { name: 'Executive' });
-    this.othersTab = page.getByRole('tab', { name: 'Others' });
-    this.inactiveTab = page.getByRole('tab', { name: 'Inactive' });
+    this.iicUsersTab                      = page.getByRole('tab', { name: 'IIC' });
+    this.customerSupportTab               = page.getByRole('tab', { name: 'Customer Support' });
+    this.executiveTab                     = page.getByRole('tab', { name: 'Executive' });
+    this.othersTab                        = page.getByRole('tab', { name: 'Others' });
+    this.inactiveTab                      = page.getByRole('tab', { name: 'Inactive' });
 
     // Users Table
-    this.userTableHeader = page.getByText('Users', { exact: true });
-    this.userTableFirstRowActionButtons = page.getByRole('button', { name: 'Open menu' }).first();
-    this.userTableActionOptionsView = page.getByRole('menuitem', { name: 'View' });
-    this.userTableActionOptionsEdit = page.getByRole('menuitem', { name: 'Edit' });
+    this.userTableHeader                  = page.getByText('Users', { exact: true });
+    this.userTableFirstRowActionButtons   = page.getByRole('button', { name: 'Open menu' }).first();
+    this.userTableActionOptionsView       = page.getByRole('menuitem', { name: 'View' });
+    this.userTableActionOptionsEdit       = page.getByRole('menuitem', { name: 'Edit' });
     this.userTableActionOptionsPermission = page.getByRole('menuitem', { name: 'Permission' });
   }
 

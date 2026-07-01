@@ -2,17 +2,17 @@
 import { Page, Locator } from '@playwright/test';
 
 export class Header {
-  readonly page: Page;
-  readonly homeButton: Locator;
-  readonly logoutButton: Locator;
-  readonly hamburgerButton: Locator;
+  readonly page            : Page;
+  readonly homeButton      : Locator;
+  readonly logoutButton    : Locator;
+  readonly hamburgerButton : Locator;
 
   constructor(page: Page) {
-    this.page = page;
+  this.page            = page;
 
-    this.homeButton =       page.getByRole('link', { name: 'IIC Logo Robowealth' });
-    this.logoutButton =     page.getByRole('button', { name: 'Log out' });
-    this.hamburgerButton =  page.getByTestId('sheet-menu-hamburger-btn');
+  this.homeButton      = page.getByRole('link', { name: 'IIC Logo Robowealth' });
+  this.logoutButton    = page.getByRole('button', { name: 'Log out' });
+  this.hamburgerButton = page.getByTestId('sheet-menu-hamburger-btn');
   }
 
   getUserAvatarDropdown(username: string): Locator {
