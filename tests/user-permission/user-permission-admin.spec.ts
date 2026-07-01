@@ -485,7 +485,7 @@ test.describe('User Permission Presets', () => {
       await permissionSettingPage.applyPreset('customerSupport');
     });
     await test.step('2. Expected: เห็น Sidebar Menu ตาม Preset Customer Support', async () => {
-      await sidebar.verifyVisibleAllExcept(['income','invoices','portfolioModels']);
+      await sidebar.verifyVisibleAllExcept(['income','invoices']);
     });
     await test.step('3. ไปที่หน้า Customers', async () => {
       await customersPage.navigateTo();

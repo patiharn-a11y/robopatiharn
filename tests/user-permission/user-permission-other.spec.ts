@@ -593,7 +593,7 @@ test.describe('User Permission Other Role Presets', () => {
       await loginPage.login(process.env.IIC_USERNAME!, process.env.IIC_PASSWORD!);
     });
     await test.step('3. Expected: เห็น Sidebar Menu ตาม Preset Customer Support (ยกเว้น Operations Section, Incomes, Invoices)', async () => {
-      await sidebar.verifyVisibleAllExceptForNonAdmin(['income', 'invoices','portfolioModels']);
+      await sidebar.verifyVisibleAllExceptForNonAdmin(['income', 'invoices']);
     });
     await test.step('4. ไปที่หน้า Customers', async () => {
       await customersPage.navigateTo();
