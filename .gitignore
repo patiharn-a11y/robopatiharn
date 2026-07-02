@@ -3,6 +3,9 @@
 .env
 .env.*
 
+# Test plans may contain credentials written by the playwright agent
+/specs/
+
 # Playwright
 node_modules/
 /test-results/
