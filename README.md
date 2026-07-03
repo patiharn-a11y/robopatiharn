@@ -59,20 +59,25 @@ npx playwright install
 สร้างไฟล์ชื่อ `.env` แล้ว copy format นี้ไปใส่ (แก้ค่าให้ตรงกับ environment จริง):
 
 ```env
-# Super Admin Account (ใช้สำหรับ admin permission tests)
+# Super Admin Account หลัก (ใช้สำหรับ Preset tests)
 SUPERADMIN_USERNAME=your_superadmin@email.com
 SUPERADMIN_PASSWORD=your_password
+
+# Super Admin Account ที่ 2 (ใช้สำหรับ individual permission tests — รันพร้อมกับ Account หลักได้)
+SUPERADMIN2_USERNAME=your_superadmin2@email.com
+SUPERADMIN2_PASSWORD=your_password
 
 # IIC Account (ใช้สำหรับ other-role permission tests)
 IIC_USERNAME=your_iic@email.com
 IIC_PASSWORD=your_password
 
+# MD Account (ใช้สำหรับ other-role individual permission tests — รันพร้อมกับ IIC Account ได้)
+MD_USERNAME=your_md@email.com
+MD_PASSWORD=your_password
+
 # Accounts อื่นๆ ที่ใช้ใน tests
 ADMIN_USERNAME=your_admin@email.com
 ADMIN_PASSWORD=your_password
-
-MD_USERNAME=your_md@email.com
-MD_PASSWORD=your_password
 
 ASSISTANT_USERNAME=your_assistant@email.com
 ASSISTANT_PASSWORD=your_password
@@ -112,10 +117,12 @@ npx playwright test --reporter=html && npx playwright show-report
 
 ### การตั้งค่า Workers (ความเร็วในการรัน)
 
-ใน `playwright.config.ts` มีการตั้ง `workers: 2` ซึ่งหมายความว่า:
-- Test ของ **Super Admin** จะรันบน Browser หน้าต่างที่ 1
-- Test ของ **Other Role** จะรันบน Browser หน้าต่างที่ 2
-- ทั้งสองรันพร้อมกัน ประหยัดเวลา
+ใน `playwright.config.ts` มีการตั้ง `workers: 4` ซึ่งหมายความว่า:
+- **Worker 1** → `user-permission-admin.spec.ts` (Admin Preset tests — ใช้ `SUPERADMIN_USERNAME`)
+- **Worker 2** → `user-permission-admin-permissions.spec.ts` (Admin individual permission tests — ใช้ `SUPERADMIN2_USERNAME`)
+- **Worker 3** → `user-permission-other.spec.ts` (Other Role Preset tests — ใช้ `SUPERADMIN_USERNAME` + `IIC_USERNAME`)
+- **Worker 4** → `user-permission-other-permissions.spec.ts` (Other Role individual permission tests — ใช้ `SUPERADMIN2_USERNAME` + `MD_USERNAME`)
+- ทั้งสี่รันพร้อมกัน ประหยัดเวลา และแต่ละ Worker ใช้ account คนละตัวจึงไม่ชนกัน
 
 ---
 
@@ -182,7 +189,7 @@ iicportal-test/
 
 ```typescript
 export const Customers = {
-  RonWeasley: {
+  VulnerableWeasley: {
     name: "วัลเนอราเบิ้ล วีสลีย์",   // ชื่อที่แสดงบน Website
     accountNumber1: "ROBO2667433",    // Account ID แรก
     // accountNumber2: "..."          // ถ้ามี 2 Account ให้ uncomment บรรทัดนี้
