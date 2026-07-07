@@ -44,7 +44,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-01 ตรวจสอบว่า Preset Super Admin แสดง Sidebar, Customer Detail และ Incomes ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-038 ตรวจสอบว่า Preset Super Admin แสดง Sidebar, Customer Detail และ Incomes ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset Super Admin และ Save', async () => {
       await permissionSettingPage.applyPreset('superAdmin');
     });
@@ -76,7 +76,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-02 ตรวจสอบว่า Preset Admin แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-039 ตรวจสอบว่า Preset Admin แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset Admin และ Save', async () => {
       await permissionSettingPage.applyPreset('admin');
     });
@@ -108,7 +108,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-03 ตรวจสอบว่า Preset MD แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-040 ตรวจสอบว่า Preset MD แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset MD และ Save', async () => {
       await permissionSettingPage.applyPreset('MD');
     });
@@ -137,7 +137,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-04 ตรวจสอบว่า Preset Assistant แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-041 ตรวจสอบว่า Preset Assistant แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset Assistant และ Save', async () => {
       await permissionSettingPage.applyPreset('assistant');
     });
@@ -163,7 +163,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-05 ตรวจสอบว่า Preset IIC แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-042 ตรวจสอบว่า Preset IIC แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset IIC และ Save', async () => {
       await permissionSettingPage.applyPreset('IIC');
     });
@@ -192,7 +192,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-06 ตรวจสอบว่า Preset Accountant แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async () => {
+  test('TC-043 ตรวจสอบว่า Preset Accountant แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async () => {
     await test.step('1. กด Preset Accountant และ Save', async () => {
       await permissionSettingPage.applyPreset('accountant');
     });
@@ -208,7 +208,7 @@ test.describe('User Permission Other Role Presets', () => {
     });
   });
 
-  test('TC-07 ตรวจสอบว่า Preset Customer Support แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
+  test('TC-044 ตรวจสอบว่า Preset Customer Support แสดง Sidebar Menu ถูกต้อง สำหรับ Other Role', async ({ page }) => {
     await test.step('1. กด Preset Customer Support และ Save', async () => {
       await permissionSettingPage.applyPreset('customerSupport');
     });

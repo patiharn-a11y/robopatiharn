@@ -26,7 +26,7 @@ test.describe("Create Transaction Redemption", () => {
     customersDetailPage    = new CustomersDetailPage(page);
     createTransactionsPage = new CreateTransactionsPage(page);
 
-    await test.step("Prerequisite : Login ด้วย Super Admin และไปที่หน้า Customers Detail Page ของ Account วัลเนอราเบิ้ล วีสลีย์", async () => {
+    await test.step("Prerequisite : Login ด้วย Super Admin และไปที่หน้า Customers Detail Page ของ Account รอน วีสลีย์", async () => {
       await loginPage.login(process.env.SUPERADMIN_USERNAME!, process.env.SUPERADMIN_PASSWORD!);
       await customersPage.navigateTo();
       const expectedId = await customersPage.searchAndNavigate("name", Customers.RonWeasley.name);
@@ -34,14 +34,15 @@ test.describe("Create Transaction Redemption", () => {
     });
   });  
 
-  test("TC-01 ตรวจสอบว่าซื้อได้", async ({ page }) => {
-    await test.step("1. กด Preset Super Admin และ Save", async () => {
+  test("TC-01 ตรวจสอบว่าสามารถทำ Transaction ได้", async ({ page }) => {
+    await test.step("1. กรอกข้อมูลลงในหน้า Transaction และกด Submit", async () => {
       const today = new Date();
       const thisDay   = String(today.getDate()).padStart(2, "0"); // '06'
       const thisMonth = String(today.getMonth() + 1).padStart(2, "0"); // '07' (Month is 0-indexed)
       const thisYear  = String(today.getFullYear()); // '2026'
       await expect(customersDetailPage.customersDetailHeader).toBeVisible();
       await customersDetailPage.createTransactionButton.click();
+      await expect(createTransactionsPage.customerHeader).toBeVisible();
       await createTransactionsPage.createSubscription(
         Funds.KFCASH_A.code,
         Customers.RonWeasley.bankAccount,
@@ -51,7 +52,7 @@ test.describe("Create Transaction Redemption", () => {
         thisYear,
         "ATS to/by AMC",
       );
-    await test.step("2. กด Preset Super Admin และ Save", async () => { 
+    await test.step("2. ตรวจสอบว่า redirect กลับมาที่หน้า Customer", async () => { 
       await expect(customersDetailPage.customersDetailHeader).toBeVisible();
     });
   });

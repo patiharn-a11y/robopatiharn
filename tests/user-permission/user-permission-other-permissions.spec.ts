@@ -44,7 +44,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-01 ตรวจสอบว่า Other Role ที่มีสิทธิ์การมองเห็นทุก Permission จะสามารถเห็นทุก Menu (ยกเว้น Operations Section)', async ({ page }) => {
+  test('TC-018 ตรวจสอบว่า Other Role ที่มีสิทธิ์การมองเห็นทุก Permission จะสามารถเห็นทุก Menu (ยกเว้น Operations Section)', async ({ page }) => {
     await test.step('1. เพิ่มสิทธิ์การมองเห็นทุก Permission', async () => {
       await permissionSettingPage.grantAllExcept([]);
     });
@@ -76,7 +76,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-02 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Dashboard จะไม่เห็นเมนูและหน้า Dashboard', async () => {
+  test('TC-019 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Dashboard จะไม่เห็นเมนูและหน้า Dashboard', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Dashboard', async () => {
       await permissionSettingPage.grantAllExcept(['dashboard']);
     });
@@ -89,7 +89,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-03 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Customers จะไม่เห็นเมนูและหน้า Customers', async () => {
+  test('TC-020 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Customers จะไม่เห็นเมนูและหน้า Customers', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Customers', async () => {
       await permissionSettingPage.grantAllExcept(['customers']);
     });
@@ -102,7 +102,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-04 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Detail ของ Customers จะไม่เห็นข้อมูลทั้งหมดในหน้า Customers', async ({ page }) => {
+  test('TC-021 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Detail ของ Customers จะไม่เห็นข้อมูลทั้งหมดในหน้า Customers', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Customers Detail', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail']);
     });
@@ -122,7 +122,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-05 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Asset Allocation ของ Customers จะไม่เห็นข้อมูลในแท็บ Asset Allocation ในหน้า Customer Detail', async ({ page }) => {
+  test('TC-022 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Asset Allocation ของ Customers จะไม่เห็นข้อมูลในแท็บ Asset Allocation ในหน้า Customer Detail', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Asset Allocation', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail.assetAllocation']);
     });
@@ -142,7 +142,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-06 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Profile ของ Customers จะไม่เห็นข้อมูลในแท็บ Profile ในหน้า Customer Detail', async ({ page }) => {
+  test('TC-023 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Profile ของ Customers จะไม่เห็นข้อมูลในแท็บ Profile ในหน้า Customer Detail', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Profile', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail.profile']);
     });
@@ -162,7 +162,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-07 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Fund By Lot ของ Customers จะไม่เห็นข้อมูลในแท็บ Fund By Lot ในหน้า Customer Detail', async ({ page }) => {
+  test('TC-024 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Fund By Lot ของ Customers จะไม่เห็นข้อมูลในแท็บ Fund By Lot ในหน้า Customer Detail', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Fund By Lot', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail.fundByLot']);
     });
@@ -182,7 +182,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-08 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Fund By Lot Live ของ Customers จะไม่เห็นข้อมูลในแท็บ Fund By Lot Live ในหน้า Customer Detail', async ({ page }) => {
+  test('TC-025 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Fund By Lot Live ของ Customers จะไม่เห็นข้อมูลในแท็บ Fund By Lot Live ในหน้า Customer Detail', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Fund By Lot Live', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail.fundByLotLive']);
     });
@@ -202,7 +202,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-09 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Transactions ของ Customers จะไม่เห็นข้อมูลในแท็บ Transactions ในหน้า Customer Detail', async ({ page }) => {
+  test('TC-026 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Transactions ของ Customers จะไม่เห็นข้อมูลในแท็บ Transactions ในหน้า Customer Detail', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Transactions', async () => {
       await permissionSettingPage.grantAllExcept(['customers.detail.transactions']);
     });
@@ -222,7 +222,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-10 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์ Manage Portfolio ของ Customer จะไม่เห็น Action Button', async ({ page }) => {
+  test('TC-027 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์ Manage Portfolio ของ Customer จะไม่เห็น Action Button', async ({ page }) => {
     await test.step('1. ไม่ให้สิทธิ์ Manage Portfolio', async () => {
       await permissionSettingPage.grantAllExcept(['customers.manage']);
     });
@@ -241,7 +241,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-11 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Funds จะไม่เห็นเมนูและหน้า Funds', async () => {
+  test('TC-028 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Funds จะไม่เห็นเมนูและหน้า Funds', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Funds', async () => {
       await permissionSettingPage.grantAllExcept(['funds']);
     });
@@ -254,7 +254,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-12 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Transactions จะไม่เห็นเมนูและหน้า Transactions', async () => {
+  test('TC-029 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Transactions จะไม่เห็นเมนูและหน้า Transactions', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Transactions', async () => {
       await permissionSettingPage.grantAllExcept(['transactions']);
     });
@@ -267,7 +267,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-13 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Incomes จะไม่เห็นเมนูและหน้า Incomes', async () => {
+  test('TC-030 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Incomes จะไม่เห็นเมนูและหน้า Incomes', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Incomes', async () => {
       await permissionSettingPage.grantAllExcept(['incomes']);
     });
@@ -280,7 +280,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-14 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Income Chart จะไม่เห็น Chart ในหน้า Incomes', async () => {
+  test('TC-031 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Income Chart จะไม่เห็น Chart ในหน้า Incomes', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Income Chart', async () => {
       await permissionSettingPage.grantAllExcept(['incomes.chart']);
     });
@@ -296,7 +296,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-15 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Income Customer Fee จะไม่เห็น Customer Fee Table ในหน้า Incomes', async () => {
+  test('TC-032 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Income Customer Fee จะไม่เห็น Customer Fee Table ในหน้า Incomes', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Income Customer Fee', async () => {
       await permissionSettingPage.grantAllExcept(['incomes.customer']);
     });
@@ -312,7 +312,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-16 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Total Income จะไม่เห็น Total Income Overview ในหน้า Incomes', async () => {
+  test('TC-033 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Total Income จะไม่เห็น Total Income Overview ในหน้า Incomes', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Total Income', async () => {
       await permissionSettingPage.grantAllExcept(['incomes.totalIncome']);
     });
@@ -328,7 +328,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-17 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Calendar จะไม่เห็นเมนูและหน้า Calendar', async () => {
+  test('TC-034 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Calendar จะไม่เห็นเมนูและหน้า Calendar', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Calendar', async () => {
       await permissionSettingPage.grantAllExcept(['calendar']);
     });
@@ -341,7 +341,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-18 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Invoices จะไม่เห็นเมนูและหน้า Invoices', async () => {
+  test('TC-035 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Invoices จะไม่เห็นเมนูและหน้า Invoices', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Invoices', async () => {
       await permissionSettingPage.grantAllExcept(['invoices']);
     });
@@ -354,7 +354,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-19 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การ download Receipt Invoices จะไม่สามารถ download file ได้', async () => {
+  test('TC-036 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การ download Receipt Invoices จะไม่สามารถ download file ได้', async () => {
     await test.step('1. ไม่ให้สิทธิ์การ Download Receipt', async () => {
       await permissionSettingPage.grantAllExcept(['invoices.file.receipt']);
     });
@@ -373,7 +373,7 @@ test.describe('User Permission Other Role', () => {
     });
   });
 
-  test('TC-20 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Portfolio Models จะไม่เห็นเมนูและหน้า Portfolio Models', async () => {
+  test('TC-037 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Portfolio Models จะไม่เห็นเมนูและหน้า Portfolio Models', async () => {
     await test.step('1. ไม่ให้สิทธิ์การมองเห็นของ Portfolio Models', async () => {
       await permissionSettingPage.grantAllExcept(['portfolioModels']);
     });

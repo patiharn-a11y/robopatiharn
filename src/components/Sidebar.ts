@@ -3,7 +3,7 @@ import { Page, Locator, expect } from '@playwright/test';
 import { Header } from './Header';
 
 export class Sidebar {
-  readonly page                    : Page;
+  readonly page: Page;
   readonly header                  : Header;
 
   readonly container               : Locator;
@@ -31,37 +31,53 @@ export class Sidebar {
   readonly invoicesButton          : Locator;
 
   constructor(page: Page, header: Header) {
-  this.page                    = page;
-  this.header                  = header;
+    this.page = page;
+    this.header = header;
 
-  this.container               = page.getByTestId('sheet-menu-container');
-  this.closeButton             = page.getByRole('button', { name: 'Close' });
-  this.mainSection             = page.getByRole('list').getByText('Main', { exact: true });
-  this.dashboardButton         = page.getByTestId('sidebar-menu-item-dashboard');
-  this.customersButton         = page.getByTestId('sidebar-menu-item-customers');
-  this.fundsButton             = page.getByTestId('sidebar-menu-item-funds');
-  this.transactionsButton      = page.getByTestId('sidebar-menu-item-transactions');
-  this.incomeButton            = page.getByTestId('sidebar-menu-item-incomes');
-  this.calendarButton          = page.getByTestId('sidebar-menu-item-calendar');
-  this.portfolioModels         = page.getByTestId('sidebar-menu-item-portfolio-models');
+    this.container               = page.getByTestId("sheet-menu-container");
+    this.closeButton             = page.getByRole("button", { name: "Close" });
+    this.mainSection             = page.getByRole("list").getByText("Main", { exact: true });
+    this.dashboardButton         = page.getByTestId("sidebar-menu-item-dashboard");
+    this.customersButton         = page.getByTestId("sidebar-menu-item-customers");
+    this.fundsButton             = page.getByTestId("sidebar-menu-item-funds");
+    this.transactionsButton      = page.getByTestId("sidebar-menu-item-transactions");
+    this.incomeButton            = page.getByTestId("sidebar-menu-item-incomes");
+    this.calendarButton          = page.getByTestId("sidebar-menu-item-calendar");
+    this.portfolioModels         = page.getByTestId("sidebar-menu-item-portfolio-models");
 
-  this.operationsSection       = page.getByRole('list').getByText('Operations');
-  this.feeManagementButton     = page.getByTestId('sidebar-menu-item-fee-management');
-  this.amcFeeManagementButton  = page.getByTestId('sidebar-menu-item-amc-fee-management');
-  this.userManagementButton    = page.getByTestId('sidebar-menu-item-users');
-  this.announcementButton      = page.getByTestId('sidebar-menu-item-system-announcement');
-  this.iicAssociationButton    = page.getByTestId('sidebar-menu-item-iic-association');
-  this.maintenanceButton       = page.getByTestId('sidebar-menu-item-maintenance-management');
-  this.adminAuditLogsButton    = page.getByTestId('sidebar-menu-item-admin-audit-logs');
-  this.unitholderBalanceButton = page.getByTestId('sidebar-menu-item-unitholder-balance');
+    this.operationsSection       = page.getByRole("list").getByText("Operations");
+    this.feeManagementButton     = page.getByTestId("sidebar-menu-item-fee-management");
+    this.amcFeeManagementButton  = page.getByTestId("sidebar-menu-item-amc-fee-management");
+    this.userManagementButton    = page.getByTestId("sidebar-menu-item-users");
+    this.announcementButton      = page.getByTestId("sidebar-menu-item-system-announcement",);
+    this.iicAssociationButton    = page.getByTestId("sidebar-menu-item-iic-association");
+    this.maintenanceButton       = page.getByTestId("sidebar-menu-item-maintenance-management");
+    this.adminAuditLogsButton    = page.getByTestId("sidebar-menu-item-admin-audit-logs");
+    this.unitholderBalanceButton = page.getByTestId("sidebar-menu-item-unitholder-balance");
 
-  this.documentSection         = page.getByRole('list').getByText('Documents');
-  this.invoicesButton          = page.getByTestId('sidebar-menu-item-invoices');
+    this.documentSection         = page.getByRole("list").getByText("Documents");
+    this.invoicesButton          = page.getByTestId("sidebar-menu-item-invoices");
   }
   private get menuItemKeys() {
-    return ['dashboard', 'customers', 'funds', 'transactions', 'income', 'calendar', 'portfolioModels', 
-            'feeManagement', 'amcFeeManagement', 'userManagement', 'announcement', 'iicAssociation', 
-            'maintenance', 'adminAuditLogs', 'unitholderBalance', 'invoices'
+    return [
+      "dashboard",
+      "customers",
+      "funds",
+      "transactions",
+      "income",
+      "calendar",
+      "portfolioModels",
+
+      "feeManagement",
+      "amcFeeManagement",
+      "userManagement",
+      "announcement",
+      "iicAssociation",
+      "maintenance",
+      "adminAuditLogs",
+      "unitholderBalance",
+      
+      "invoices",
     ] as const;
   }
 
@@ -83,29 +99,33 @@ export class Sidebar {
       maintenance       : this.maintenanceButton,
       adminAuditLogs    : this.adminAuditLogsButton,
       unitholderBalance : this.unitholderBalanceButton,
-      
+
       invoices          : this.invoicesButton,
     };
   }
 
   async sidebarOpen() {
     // Helper Function ไว้ make sure ว่า Sidebar จะเห็นได้ เพราะบน Responsive view Sidebar จะถูกซ่อน เลยต้องกด Hamburger Button ก่อน
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState("domcontentloaded");
     const isMobile = await this.header.hamburgerButton.isVisible();
     if (isMobile) {
       await this.header.hamburgerButton.click();
-      await this.container.waitFor({ state: 'visible' });
+      await this.container.waitFor({ state: "visible" });
     }
   }
 
   async verifyVisibleAllExcept(hiddenKeys: string[] = []) {
-  // Function verifyVisibleAllExcept ใช้เพื่อเช็คว่าในแท็บ Sidebar จะเห็นทุกๆ Menu ยกเว้นเมนูที่ใส่ไว้ใน arguments
-  // หากเว้น arguments ว่างหมายความว่าทุกเมนูต้องแสดงให้เห็น
-  // ตัวอย่าง await sidebar.verifyVisibleAllExcept(['dashboard'])
+    // Function verifyVisibleAllExcept ใช้เพื่อเช็คว่าในแท็บ Sidebar จะเห็นทุกๆ Menu ยกเว้นเมนูที่ใส่ไว้ใน arguments
+    // หากเว้น arguments ว่างหมายความว่าทุกเมนูต้องแสดงให้เห็น
+    // ตัวอย่าง await sidebar.verifyVisibleAllExcept(['dashboard'])
     const validKeys = this.menuItemKeys;
-    const invalidKeys = hiddenKeys.filter(k => !(validKeys as readonly string[]).includes(k));
+    const invalidKeys = hiddenKeys.filter(
+      (k) => !(validKeys as readonly string[]).includes(k),
+    );
     if (invalidKeys.length > 0) {
-      throw new Error(`Invalid sidebar menu key(s): ${invalidKeys.join(', ')}\nAvailable keys: ${validKeys.join(', ')}`);
+      throw new Error(
+        `Invalid sidebar menu key(s): ${invalidKeys.join(", ")}\nAvailable keys: ${validKeys.join(", ")}`,
+      );
     }
 
     await this.sidebarOpen();
@@ -122,11 +142,20 @@ export class Sidebar {
   }
 
   async verifyVisibleAllExceptForNonAdmin(hiddenKeys: string[] = []) {
-  // Function verifyVisibleAllExceptForNonAdmin ใช้สำหรับ Role ที่ไม่ใช่ Admin/Super Admin
-  // Operations section (feeManagement, amcFeeManagement, userManagement, announcement, iicAssociation, maintenance, adminAuditLogs, unitholderBalance)
-  // จะถูกซ่อนเสมอโดย Role ไม่ใช่ Permission
-  // ตัวอย่าง await sidebar.verifyVisibleAllExceptForNonAdmin(['dashboard'])
-    const opsItems = ['feeManagement', 'amcFeeManagement', 'userManagement', 'announcement', 'iicAssociation', 'maintenance', 'adminAuditLogs', 'unitholderBalance'];
+    // Function verifyVisibleAllExceptForNonAdmin ใช้สำหรับ Role ที่ไม่ใช่ Admin/Super Admin
+    // Operations section (feeManagement, amcFeeManagement, userManagement, announcement, iicAssociation, maintenance, adminAuditLogs, unitholderBalance)
+    // จะถูกซ่อนเสมอโดย Role ไม่ใช่ Permission
+    // ตัวอย่าง await sidebar.verifyVisibleAllExceptForNonAdmin(['dashboard'])
+    const opsItems = [
+      "feeManagement",
+      "amcFeeManagement",
+      "userManagement",
+      "announcement",
+      "iicAssociation",
+      "maintenance",
+      "adminAuditLogs",
+      "unitholderBalance",
+    ];
     await this.verifyVisibleAllExcept([...opsItems, ...hiddenKeys]);
   }
 }
