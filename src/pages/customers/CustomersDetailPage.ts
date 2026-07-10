@@ -32,6 +32,10 @@ export class CustomersDetailPage {
   readonly fundByLotLiveOverviewBox   : Locator;
   readonly transactionTable           : Locator;
 
+  //Fund By Lot Tabs
+  readonly fundByLotCodeColumn        : Locator;
+  readonly fundByLotTradeColumn       : Locator;
+
     constructor(page: Page){
     this.page                       = page;
     this.header                     = new Header(page);
@@ -41,7 +45,7 @@ export class CustomersDetailPage {
     this.breadcrumbsFirstItem       = page.getByTestId('breadcrumb-item-0');
     this.breadcrumbsSecondItem      = page.getByTestId('breadcrumb-item-1');
 
-    this.customersDetailHeader      = page.getByRole('heading');
+    this.customersDetailHeader      = page.getByTestId('customer-detail-header-name');
     this.createTransactionButton    = page.getByRole('button', { name: 'Create Transaction' });
     this.generateReportButton       = page.getByRole('button', { name: 'Report' });
 
@@ -56,6 +60,9 @@ export class CustomersDetailPage {
     this.fundByLotOverviewBox       = page.getByText('มูลค่าปัจจุบัน');
     this.fundByLotLiveOverviewBox   = page.getByText('มูลค่าปัจจุบัน');
     this.transactionTable           = page.getByRole('columnheader', { name: 'วันที่ทำรายการ' });
+
+    this.fundByLotCodeColumn        = page.getByTestId('fund-by-lot-sort-btn-fundCode').first();
+    this.fundByLotTradeColumn       = page.getByTestId('fund-by-lot-open-funds-th-trade');
     
     }
     private get menuItems() : Record<string, Locator> {

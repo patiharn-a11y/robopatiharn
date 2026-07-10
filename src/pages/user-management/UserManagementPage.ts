@@ -23,7 +23,7 @@ export class UserManagementPage {
 
   // Tabs
   readonly iicUsersTab                      : Locator;
-  readonly customerSupportTab               : Locator;
+  readonly indegoSalesTab                   : Locator;
   readonly executiveTab                     : Locator;
   readonly othersTab                        : Locator;
   readonly inactiveTab                      : Locator;
@@ -54,7 +54,7 @@ export class UserManagementPage {
 
     // Tabs
     this.iicUsersTab                      = page.getByRole('tab', { name: 'IIC' });
-    this.customerSupportTab               = page.getByRole('tab', { name: 'Customer Support' });
+    this.indegoSalesTab                   = page.getByRole('tab', { name: 'INDEGO Sales' });
     this.executiveTab                     = page.getByRole('tab', { name: 'Executive' });
     this.othersTab                        = page.getByRole('tab', { name: 'Others' });
     this.inactiveTab                      = page.getByRole('tab', { name: 'Inactive' });

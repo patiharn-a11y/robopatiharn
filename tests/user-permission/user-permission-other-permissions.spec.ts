@@ -59,7 +59,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('5. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('6. Expected: เห็น Tab ใน Customer Detail ทุกแท็บ', async () => {
@@ -114,11 +114,10 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
-      await expect(page).toHaveURL(new RegExp(expectedId));
+      await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
     });
     await test.step('5. Expected: สามารถเข้าไปที่หน้า Customer Detail ได้ แต่ไม่เห็นข้อมูลอะไรเลย', async () => {
-      await customersDetailPage.verifyVisibleAllTabExcept(['profileTab', 'assetAllocationTab', 'fundByLotTab', 'fundByLotLiveTab', 'transactionsTab']);
+      await expect(page).toHaveURL(new RegExp(/.*\/403/));
     });
   });
 
@@ -134,7 +133,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('5. Expected: Other Role จะไม่เห็นแท็บและข้อมูลของ Asset Allocation แต่แท็บแมนูอื่นๆ ยังสามารถเห็นได้ตามปกติ', async () => {
@@ -154,7 +153,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('5. Expected: Other Role จะไม่เห็นแท็บและข้อมูลของ Profile แต่แท็บแมนูอื่นๆ ยังสามารถเห็นได้ตามปกติ', async () => {
@@ -174,7 +173,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('5. Expected: Other Role จะไม่เห็นแท็บและข้อมูลของ Fund By Lot แต่แท็บแมนูอื่นๆ ยังสามารถเห็นได้ตามปกติ', async () => {
@@ -194,7 +193,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('5. Expected: Other Role จะไม่เห็นแท็บและข้อมูลของ Fund By Lot Live แต่แท็บแมนูอื่นๆ ยังสามารถเห็นได้ตามปกติ', async () => {
@@ -214,7 +213,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
+      const expectedId = await customersPage.searchAndNavigate('name', Customers.RonWeasley.name);
       await expect(page).toHaveURL(new RegExp(expectedId));
     });
     await test.step('5. Expected: Other Role จะไม่เห็นแท็บและข้อมูลของ Transactions แต่แท็บแมนูอื่นๆ ยังสามารถเห็นได้ตามปกติ', async () => {
@@ -234,7 +233,7 @@ test.describe('User Permission Other Role', () => {
       await customersPage.navigateTo();
     });
     await test.step('4. Search หารอน วีสลีย์ และ Expand ดู Account แรกของ รอน (ถ้ามีหลาย Account)', async () => {
-      await customersPage.searchAndExpand('name', Customers.VulnerableWeasley.name);
+      await customersPage.searchAndExpand('name', Customers.RonWeasley.name);
     });
     await test.step('5. Expected: Other Role จะไม่เห็น Action Bar และไม่สามารถแก้ไข Portfolio ได้', async () => {
       await customersPage.expectActionButtonNotVisible();
@@ -265,6 +264,30 @@ test.describe('User Permission Other Role', () => {
     await test.step('3. Expected: ไม่เห็นเมนู Transactions ที่แท็บ Sidebar', async () => {
       await sidebar.verifyVisibleAllExceptForNonAdmin(['transactions']);
     });
+  });
+
+  test('TC-046 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์ Create Transaction จะไม่เห็นปุ่ม Create Transaction ในหน้า Customer Detail Page', async () => {
+    await test.step('1. ไม่ให้สิทธิการมองเห็นของ Create Transaction', async () => {
+      await permissionSettingPage.grantAllExcept(['transactions.create']);
+    });
+    await test.step('2. Logout Super Admin และ Login เป็น MD', async () => {
+      await header.logout(process.env.SUPERADMIN2_USERNAME!);
+      await loginPage.login(process.env.MD_USERNAME!, process.env.MD_PASSWORD!);
+    });
+    await test.step('3. ไปที่หน้า Customers', async () => {
+      await customersPage.navigateTo();
+    });
+    await test.step('4. Search หารอน วีสลีย์ และไปที่หน้า Customer Detail Page Account แรกของ รอน', async () => {
+      await customersPage.searchAndNavigate('name',Customers.RonWeasley.name);
+    });
+    await test.step('4. Expected: ไม่เห็นปุ่ม Create Transaction',  async () => {
+      await expect(customersDetailPage.customersDetailHeader).toBeVisible();
+      await expect(customersDetailPage.createTransactionButton).not.toBeVisible();
+    });
+    await test.step('5. Expected: ตรวจสอบว่าไม่เห็น Column Trade ในหน้า Fund By Lot', async () => {
+      await customersDetailPage.fundByLotTab.click();
+      await expect(customersDetailPage.fundByLotTradeColumn).not.toBeVisible();
+    })
   });
 
   test('TC-030 ตรวจสอบว่า Other Role ที่ไม่มีสิทธิ์การมองเห็น Incomes จะไม่เห็นเมนูและหน้า Incomes', async () => {

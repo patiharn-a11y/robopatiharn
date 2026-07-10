@@ -98,11 +98,10 @@ test.describe('User Permission Super Admin', () => {
       await customersPage.navigateTo();
     });
     await test.step('3. Search หารอน วีสลีย์ และไปที่หน้า Customers Detail ของ Account แรกของ รอน', async () => {
-      const expectedId = await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
-      await expect(page).toHaveURL(new RegExp(expectedId));
+      await customersPage.searchAndNavigate('name', Customers.VulnerableWeasley.name);
     });
     await test.step('4. Expected: สามารถเข้าไปที่หน้า Customer Detail ได้ แต่ไม่เห็นข้อมูลอะไรเลย', async () => {
-      await customersDetailPage.verifyVisibleAllTabExcept(['profileTab','assetAllocationTab','fundByLotTab','fundByLotLiveTab','transactionsTab']);
+      await expect(page).toHaveURL(/.*\/403/);
     });
   });
 
@@ -217,6 +216,26 @@ test.describe('User Permission Super Admin', () => {
     await test.step('2. Expected: ไม่เห็นเมนู Transactions ที่แท็บ Sidebar', async () => {
       await sidebar.verifyVisibleAllExcept(['transactions']);
     });
+  });
+
+  test('TC-045 ตรวจสอบว่า Super Admin ที่ไม่มีสิทธิ์ Create Transaction จะไม่เห็นปุ่ม Create Transaction ในหน้า Customer Detail Page', async () => {
+    await test.step('1. ไม่ให้สิทธิการมองเห็นของ Create Transaction', async () => {
+      await permissionSettingPage.grantAllExcept(['transactions.create']);
+    });
+    await test.step('2. ไปที่หน้า Customers', async () => {
+      await customersPage.navigateTo();
+    });
+    await test.step('3. Search หารอน วีสลีย์ และไปที่หน้า Customer Detail Page Account แรกของ รอน', async () => {
+      await customersPage.searchAndNavigate('name',Customers.RonWeasley.name);
+    });
+    await test.step('4. Expected: ไม่เห็นปุ่ม Create Transaction',  async () => {
+      await expect(customersDetailPage.customersDetailHeader).toBeVisible();
+      await expect(customersDetailPage.createTransactionButton).not.toBeVisible();
+    });
+    await test.step('5. Expected: ตรวจสอบว่าไม่เห็น Column Trade ในหน้า Fund By Lot', async () => {
+      await customersDetailPage.fundByLotTab.click();
+      await expect(customersDetailPage.fundByLotTradeColumn).not.toBeVisible();
+    })
   });
 
   test('TC-013 ตรวจสอบว่า Super Admin ที่ไม่มีสิทธิ์การมองเห็น Incomes จะไม่เห็นเมนูและหน้า Incomes', async () => {

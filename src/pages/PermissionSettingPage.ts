@@ -15,6 +15,7 @@ export type PermissionPath =
   | 'customers.manage'
   | 'funds'
   | 'transactions'
+  | 'transactions.create'
   | 'incomes'
   | 'incomes.chart'
   | 'incomes.customer'
@@ -40,7 +41,7 @@ export class PermissionSettingPage {
   readonly presetAssistant       : Locator;
   readonly presetIIC             : Locator;
   readonly presetAccountant      : Locator;
-  readonly presetCustomerSupport : Locator;
+  readonly presetIndegoSales     : Locator;
 
   constructor(page: Page) {
     this.page                  = page;
@@ -57,7 +58,7 @@ export class PermissionSettingPage {
     this.presetAssistant       = page.getByTestId('permission-settings-btn-preset-ASSISTANT');
     this.presetIIC             = page.getByTestId('permission-settings-btn-preset-IIC');
     this.presetAccountant      = page.getByTestId('permission-settings-btn-preset-ACCOUNTANT');
-    this.presetCustomerSupport = page.getByTestId('permission-settings-btn-preset-CUSTOMER_SUPPORT');
+    this.presetIndegoSales     = page.getByTestId('permission-settings-btn-preset-INDEGO_SALES');
   }
 
   private getKey(id: string) {
@@ -67,83 +68,86 @@ export class PermissionSettingPage {
   get permissions() {
     return {
       dashboard: {
-        folder: this.getKey('permission-checkbox-dashboard'),
-        view:   this.getKey('permission-checkbox-dashboard.view'),
+        folder      : this.getKey('permission-checkbox-dashboard'),
+        view        : this.getKey('permission-checkbox-dashboard.view'),
       },
       customers: {
-        folder: this.getKey('permission-checkbox-customers'),
-        view:   this.getKey('permission-checkbox-customers.view'),
+        folder              : this.getKey('permission-checkbox-customers'),
+        view                : this.getKey('permission-checkbox-customers.view'),
         detail: {
-          folder: this.getKey('permission-checkbox-customers.detail'),
-          view:   this.getKey('permission-checkbox-customers.detail.view'),
+          folder            : this.getKey('permission-checkbox-customers.detail'),
+          view              : this.getKey('permission-checkbox-customers.detail.view'),
           assetAllocation: {
-            folder: this.getKey('permission-checkbox-customers.detail.assetAllocation'),
-            view: this.getKey('permission-checkbox-customers.detail.asset.view'),
+            folder          : this.getKey('permission-checkbox-customers.detail.assetAllocation'),
+            view            : this.getKey('permission-checkbox-customers.detail.asset.view'),
           },
           fundByLot: {
-            folder: this.getKey('permission-checkbox-customers.detail.fundByLot'),
-            view: this.getKey('permission-checkbox-customers.detail.fundByLot.view'),
+            folder          : this.getKey('permission-checkbox-customers.detail.fundByLot'),
+            view            : this.getKey('permission-checkbox-customers.detail.fundByLot.view'),
           },
           fundByLotLive: {
-            folder: this.getKey('permission-checkbox-customers.detail.fundByLotLive'),
-            view: this.getKey('permission-checkbox-customers.detail.fundByLotLive.view'),
+            folder          : this.getKey('permission-checkbox-customers.detail.fundByLotLive'),
+            view            : this.getKey('permission-checkbox-customers.detail.fundByLotLive.view'),
           },
           profile: {
-            folder: this.getKey('permission-checkbox-customers.detail.profile'),
-            view: this.getKey('permission-checkbox-customers.detail.profile.view'),
+            folder          : this.getKey('permission-checkbox-customers.detail.profile'),
+            view            : this.getKey('permission-checkbox-customers.detail.profile.view'),
           },
           transactions: {
-            folder: this.getKey('permission-checkbox-customers.detail.transactions'),
-            view: this.getKey('permission-checkbox-customers.detail.transactions.view'),
+            folder          : this.getKey('permission-checkbox-customers.detail.transactions'),
+            view            : this.getKey('permission-checkbox-customers.detail.transactions.view'),
           },
         },
         manage: {
-          folder: this.getKey('permission-checkbox-customers.manage'),
-          editPortfolio: this.getKey('permission-checkbox-customers.manage.editPortfolio'),
+          folder           : this.getKey('permission-checkbox-customers.manage'),
+          editPortfolio    : this.getKey('permission-checkbox-customers.manage.editPortfolio'),
         }
       },
       funds: {
-        folder: this.getKey('permission-checkbox-funds'),
-        view: this.getKey('permission-checkbox-funds.view'),
+        folder              : this.getKey('permission-checkbox-funds'),
+        view                : this.getKey('permission-checkbox-funds.view'),
       },
       transactions: {
-        folder: this.getKey('permission-checkbox-transactions'),
-        view: this.getKey('permission-checkbox-transactions.view'),
+        folder              : this.getKey('permission-checkbox-transactions'),
+        view                : this.getKey('permission-checkbox-transactions.view'),
+        create: {
+          folder            : this.getKey('permission-checkbox-transactions.create'),
+        },
       },
       incomes: {
-        folder: this.getKey('permission-checkbox-incomes'),
-        view: this.getKey('permission-checkbox-incomes.view'),
+        folder              : this.getKey('permission-checkbox-incomes'),
+        view                : this.getKey('permission-checkbox-incomes.view'),
         chart: {
-            folder: this.getKey('permission-checkbox-incomes.chart'),
-            view: this.getKey('permission-checkbox-incomes.chart.view'),
+            folder          : this.getKey('permission-checkbox-incomes.chart'),
+            view            : this.getKey('permission-checkbox-incomes.chart.view'),
         },
         customer: {
-            folder: this.getKey('permission-checkbox-incomes.customer'),
-            view: this.getKey('permission-checkbox-incomes.customer.view'),
+            folder          : this.getKey('permission-checkbox-incomes.customer'),
+            view            : this.getKey('permission-checkbox-incomes.customer.view'),
         },
         totalIncome: {
-            folder: this.getKey('permission-checkbox-incomes.totalIncome'),
-            view: this.getKey('permission-checkbox-incomes.totalIncome.view'),
+            folder          : this.getKey('permission-checkbox-incomes.totalIncome'),
+            view            : this.getKey('permission-checkbox-incomes.totalIncome.view'),
         },
       },
       calendar: {
-        folder: this.getKey('permission-checkbox-calendar'),
-        view: this.getKey('permission-checkbox-calendar.view'),
+        folder              : this.getKey('permission-checkbox-calendar'),
+        view                : this.getKey('permission-checkbox-calendar.view'),
       },
       invoices: {
-        folder: this.getKey('permission-checkbox-invoices'),
-        view: this.getKey('permission-checkbox-invoices.view'),
+        folder              : this.getKey('permission-checkbox-invoices'),
+        view                : this.getKey('permission-checkbox-invoices.view'),
         file: {
-            folder: this.getKey('permission-checkbox-invoices.file'),
+            folder          : this.getKey('permission-checkbox-invoices.file'),
             receipt: {
-                folder: this.getKey('permission-checkbox-invoices.file.receipt'),
-                download: this.getKey('permission-checkbox-invoices.file.receipt.download'),
+                folder      : this.getKey('permission-checkbox-invoices.file.receipt'),
+                download    : this.getKey('permission-checkbox-invoices.file.receipt.download'),
             },
         }
       },
       portfolioModels: {
-        folder: this.getKey('permission-checkbox-portfolio-models'),
-        view: this.getKey('permission-checkbox-portfolio-models.view'),
+        folder              : this.getKey('permission-checkbox-portfolio-models'),
+        view                : this.getKey('permission-checkbox-portfolio-models.view'),
       },
     }
   }
@@ -175,7 +179,7 @@ export class PermissionSettingPage {
   }
 
   // Function applyPreset มีไว้เพื่อเลือกปุ่ม Permission Presets ตามที่ตั้งค่า Config ไว้ ไม่เกี่ยวกับการเปลี่ยน Role
-  async applyPreset(preset: 'superAdmin' | 'admin' | 'MD' | 'assistant' | 'IIC' | 'accountant' | 'customerSupport') {
+  async applyPreset(preset: 'superAdmin' | 'admin' | 'MD' | 'assistant' | 'IIC' | 'accountant' | 'indegoSales') {
     const presetMap = {
       superAdmin      : this.presetSuperAdmin,
       admin           : this.presetAdmin,
@@ -183,7 +187,7 @@ export class PermissionSettingPage {
       assistant       : this.presetAssistant,
       IIC             : this.presetIIC,
       accountant      : this.presetAccountant,
-      customerSupport : this.presetCustomerSupport,
+      indegoSales : this.presetIndegoSales,
     };
     await presetMap[preset].click();
     await this.saveButton.click();
