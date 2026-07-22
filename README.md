@@ -11,11 +11,12 @@
 2. [วิธี Setup โปรเจคครั้งแรก](#วิธี-setup-โปรเจคครั้งแรก)
 3. [ตั้งค่า Environment Variables (.env)](#ตั้งค่า-environment-variables-env)
 4. [วิธีรัน Test](#วิธีรัน-test)
-5. [โครงสร้างโปรเจค](#โครงสร้างโปรเจค)
-6. [Test Data คืออะไร และแก้ไขยังไง](#test-data-คืออะไร-และแก้ไขยังไง)
-7. [เมื่อ Website เปลี่ยน ต้องทำอะไรบ้าง](#เมื่อ-website-เปลี่ยน-ต้องทำอะไรบ้าง)
-8. [วิธีเพิ่ม Test ใหม่](#วิธีเพิ่ม-test-ใหม่)
-9. [ดู Report หลังรัน Test](#ดู-report-หลังรัน-test)
+5. [API Test คืออะไร](#api-test-คืออะไร)
+6. [โครงสร้างโปรเจค](#โครงสร้างโปรเจค)
+7. [Test Data คืออะไร และแก้ไขยังไง](#test-data-คืออะไร-และแก้ไขยังไง)
+8. [เมื่อ Website เปลี่ยน ต้องทำอะไรบ้าง](#เมื่อ-website-เปลี่ยน-ต้องทำอะไรบ้าง)
+9. [วิธีเพิ่ม Test ใหม่](#วิธีเพิ่ม-test-ใหม่)
+10. [ดู Report หลังรัน Test](#ดู-report-หลังรัน-test)
 
 ---
 
@@ -56,6 +57,18 @@ npx playwright install
 โปรเจคนี้ต้องมีไฟล์ `.env` ที่ root ของโปรเจค (ข้างๆ ไฟล์ `package.json`)
 ไฟล์นี้เก็บ username/password ของ account ที่ใช้ในการ test **ไม่ถูก commit ขึ้น GitHub เพื่อความปลอดภัย**
 
+### วิธีที่ 1: Copy จาก `.env.example` (แนะนำ)
+
+โปรเจคนี้มีไฟล์ `.env.example` เป็น template ให้อยู่แล้วที่ root ของโปรเจค รันคำสั่งนี้เพื่อ copy เป็น `.env`:
+
+```bash
+cp .env.example .env
+```
+
+จากนั้นเปิดไฟล์ `.env` ที่เพิ่งสร้าง แล้วแก้ค่า `"your_email_here"` / `"your_password_here"` ของแต่ละตัวแปรให้เป็น credentials จริง
+
+### วิธีที่ 2: สร้างไฟล์เองด้วยมือ
+
 สร้างไฟล์ชื่อ `.env` แล้ว copy format นี้ไปใส่ (แก้ค่าให้ตรงกับ environment จริง):
 
 ```env
@@ -74,25 +87,6 @@ IIC_PASSWORD=your_password
 # MD Account (ใช้สำหรับ other-role individual permission tests — รันพร้อมกับ IIC Account ได้)
 MD_USERNAME=your_md@email.com
 MD_PASSWORD=your_password
-
-# Accounts อื่นๆ ที่ใช้ใน tests
-ADMIN_USERNAME=your_admin@email.com
-ADMIN_PASSWORD=your_password
-
-ASSISTANT_USERNAME=your_assistant@email.com
-ASSISTANT_PASSWORD=your_password
-
-ACCOUNTANT_USERNAME=your_accountant@email.com
-ACCOUNTANT_PASSWORD=your_password
-
-CUSTOMERSUPPORT_USERNAME=your_cs@email.com
-CUSTOMERSUPPORT_PASSWORD=your_password
-
-CHAEYOUNG_USERNAME=your_iic2@email.com
-CHAEYOUNG_PASSWORD=your_password
-
-TZUYU_USERNAME=your_superadmin2@email.com
-TZUYU_PASSWORD=your_password
 ```
 
 > ถ้าขอ credentials ไม่ได้ ให้ติดต่อเจ้าของโปรเจคเพื่อขอไฟล์ `.env` มาใช้โดยตรง
@@ -126,6 +120,31 @@ npx playwright test --reporter=html && npx playwright show-report
 
 ---
 
+## API Test คืออะไร
+
+นอกจาก Test ที่รัน Browser จริงแล้ว โปรเจคนี้มี **API Test** ที่ยิง Request ตรงไปที่ Backend โดยไม่เปิด Browser
+ทำให้รันได้เร็วกว่ามากและไม่ Flaky เหมาะสำหรับอินเตอร์เน็ตออฟฟิศที่ "เร็วแบบใช้งานได้อยู่"
+
+### ไฟล์ `tests/api/login.spec.ts`
+
+ทดสอบ NextAuth credentials login ผ่าน `/api/auth/callback/credentials` และ `/api/auth/session` โดยใช้ตัวช่วย `AuthApi` ที่ `src/api/auth/AuthApi.ts`
+
+| Test Case | ตรวจสอบอะไร |
+|---|---|
+| **TC-01** | Login ด้วย Account Super Admin ที่ถูกต้อง → ได้ status 200, redirect ไป `/dashboard`, และ `/api/auth/session` คืนค่า user |
+| **TC-02** | Login ด้วย Username ที่ไม่มีอยู่ → ได้ status 401 และ error `Invalid` และ session ไม่มี user |
+| **TC-03** | Login ด้วย Password ผิด → ได้ status 401 และ error `Invalid` และ session ไม่มี user |
+
+รันเฉพาะไฟล์นี้ได้ด้วยคำสั่ง:
+
+```bash
+npx playwright test tests/api/login.spec.ts
+```
+
+> `request` fixture ของ Playwright เก็บ cookie jar แยกต่างหากในแต่ละ Test ทำให้ session cookie ที่ได้จาก login carry over ไปใช้ตรวจสอบ `/api/auth/session` ต่อได้อัตโนมัติ โดยไม่ต้องเปิด Browser
+
+---
+
 ## โครงสร้างโปรเจค
 
 ```
@@ -138,14 +157,19 @@ iicportal-test/
 │   │   └── create-user.spec.ts     ← Test การสร้าง User
 │   ├── audit-log/
 │   │   └── audit-log-user-management.spec.ts
-│   └── user-permission/
-│       ├── user-permission-admin.spec.ts   ← Permission tests สำหรับ Super Admin (TC-01 ถึง TC-20 + Presets)
-│       └── user-permission-other.spec.ts   ← Permission tests สำหรับ Other Role (TC-01 ถึง TC-20 + Presets)
+│   ├── user-permission/
+│   │   ├── user-permission-admin.spec.ts   ← Permission tests สำหรับ Super Admin (TC-01 ถึง TC-20 + Presets)
+│   │   └── user-permission-other.spec.ts   ← Permission tests สำหรับ Other Role (TC-01 ถึง TC-20 + Presets)
+│   └── api/
+│       └── login.spec.ts           ← API Test สำหรับ Login (TC-01 ถึง TC-03, ไม่เปิด Browser)
 │
-├── src/                            ← Page Objects (ตัวช่วยควบคุม Browser)
+├── src/                            ← Page Objects (ตัวช่วยควบคุม Browser) และ API Helpers
 │   ├── components/
 │   │   ├── Header.ts               ← ส่วน Header และปุ่ม Logout
 │   │   └── Sidebar.ts              ← เมนู Sidebar และการ verify
+│   ├── api/
+│   │   └── auth/
+│   │       └── AuthApi.ts          ← ตัวช่วยยิง Login/Session ผ่าน API โดยตรง
 │   └── pages/
 │       ├── auth/
 │       │   └── LoginPage.ts        ← หน้า Login
@@ -170,6 +194,7 @@ iicportal-test/
 │   └── login-test-plan.md
 │
 ├── .env                            ← Username/Password (ไม่ถูก commit — ต้องสร้างเอง)
+├── .env.example                    ← Template ของ .env (commit ได้ ไม่มีค่าจริง)
 ├── playwright.config.ts            ← การตั้งค่า Playwright ทั้งหมด
 └── package.json                    ← รายการ dependencies
 ```
@@ -232,21 +257,108 @@ export const Customers = {
 
 ## วิธีเพิ่ม Test ใหม่
 
-ตัวอย่างการเพิ่ม Test Case ใน `user-permission-admin.spec.ts`:
+### กรณีทีมเพิ่ม Feature ใหม่ที่มี Permission (ตัวอย่าง: เพิ่มเมนู "Fund Performance")
+
+การเพิ่ม Test Case เฉยๆ **ไม่พอ** ถ้า Feature ใหม่มาพร้อม Permission และเมนูใน Sidebar
+เพราะ `grantAllExcept(...)` และ `verifyVisibleAllExcept(...)` ทำงานจาก Locator ที่ประกาศไว้ล่วงหน้าเท่านั้น — ถ้าไม่เพิ่ม Locator ใหม่เข้าไปก่อน Function จะไม่รู้จักเมนู/permission ตัวใหม่เลย แม้จะเพิ่ม Test Case ไปแล้วก็ตาม
+
+สมมติทีม Dev เพิ่มเมนูใหม่ชื่อ **Fund Performance** พร้อม `data-testid="sidebar-menu-item-fund-performance"` และ permission checkbox `data-testid="permission-checkbox-fundPerformance"` (มีลูก `.view`) ขั้นตอนที่ QA ต้องทำมีดังนี้:
+
+**1. เพิ่ม Locator ของเมนูใหม่ใน `src/components/Sidebar.ts`**
 
 ```typescript
-test('TC-21 ตรวจสอบว่า Super Admin ที่ไม่มีสิทธิ์ XYZ จะไม่เห็น...', async ({ page }) => {
-  await test.step('1. ไม่ให้สิทธิ์ XYZ', async () => {
-    await permissionSettingPage.grantAllExcept(['xyz']);
+// ในส่วน constructor
+readonly fundPerformanceButton: Locator;
+// ...
+this.fundPerformanceButton = page.getByTestId("sidebar-menu-item-fund-performance");
+```
+
+แล้วเพิ่ม key เข้า `menuItemKeys` และ `menuItems` (ไม่เพิ่ม 2 จุดนี้ `verifyVisibleAllExcept(...)` จะไม่มีวันเช็คเมนูนี้ให้):
+
+```typescript
+private get menuItemKeys() {
+  return [
+    "customersDetail",
+    "customersPage",
+    // ...keys เดิมก่อนหน้า
+    "fundPerformance", // ← เพิ่มบรรทัดนี้
+  ] as const;
+}
+
+private get menuItems(): Record<string, Locator> {
+  return {
+    // ...items เดิม
+    fundPerformance: this.fundPerformanceButton, // ← เพิ่มบรรทัดนี้
+  };
+}
+```
+
+**2. เพิ่ม Permission Path ใหม่ใน `src/pages/PermissionSettingPage.ts`**
+
+เพิ่มเข้า type `PermissionPath` และเพิ่ม Locator ในของ `permissions` getter (ไม่เพิ่มจุดนี้ `grantAllExcept(...)` จะหา path ไม่เจอและ throw error `Permission path not found`):
+
+```typescript
+export type PermissionPath =
+  | 'dashboard'
+  // ...paths เดิม
+  | 'fundPerformance'; // ← เพิ่มบรรทัดนี้
+
+get permissions() {
+  return {
+    // ...permissions เดิม
+    fundPerformance: {  // ← เพิ่ม permission nested
+      folder : this.getKey('permission-checkbox-fundPerformance'), // ← ตรงกับ data-testId ที่ dev ใส่มาให้ใน class
+      view   : this.getKey('permission-checkbox-fundPerformance.view'),
+    },
+  }
+}
+```
+
+**3. เพิ่ม Test Case ใน `user-permission-admin-permissions.spec.ts` และ `user-permission-other-permissions.spec.ts`**
+
+ตอนนี้ `fundPerformance` เป็น key/path ที่ใช้งานได้แล้ว จึงเพิ่ม Test Case ตามปกติ:
+
+```typescript
+test('TC-22 ตรวจสอบว่า Super Admin ที่ไม่มีสิทธิ์ Fund Performance จะไม่เห็นเมนู Fund Performance', async ({ page }) => {
+  await test.step('1. ไม่ให้สิทธิ์ Fund Performance', async () => {
+    await permissionSettingPage.grantAllExcept(['fundPerformance']);
   });
-  await test.step('2. Expected: ไม่เห็น...', async () => {
-    await sidebar.verifyVisibleAllExcept(['xyz']);
+  await test.step('2. Expected: ไม่เห็นเมนู Fund Performance ที่แท็บ Sidebar', async () => {
+    await sidebar.verifyVisibleAllExcept(['fundPerformance']);
   });
 });
 ```
 
-> `test.step(...)` ไม่ได้มีผลต่อการทำงาน แต่ทำให้ Report อ่านง่ายขึ้น
-> ชื่อ step จะแสดงในหน้า Report เมื่อ Test ล้มเหลว
+**4. แก้ไข Preset ทั้งหมดที่มีการเปลี่ยนแปลง**
+
+เมนูใหม่จะเข้าไปอยู่ใน `menuItems` ของ `Sidebar.ts` ทันที (จากข้อ 1) ซึ่งแปลว่า **ทุก** Test ที่เรียก `verifyVisibleAllExcept(...)` หรือ `verifyVisibleAllExceptForNonAdmin(...)` จะถูกกระทบไปด้วย — รวมถึง Test ของ Preset ที่มีอยู่แล้วใน `user-permission-admin-preset.spec.ts` และ `user-permission-other-preset.spec.ts` เพราะเมนูใหม่จะถูกคาดหวังว่า "เห็น" โดย default ถ้าไม่ใส่ key ไว้ใน array ที่ซ่อน
+
+QA ต้องไปคุยกับทีม Dev/Product ก่อนว่า **Preset ไหนควรเห็น Fund Performance บ้าง** แล้วไปแก้ Test ของ Preset นั้นๆ ให้ตรงกับพฤติกรรมจริงบน Website สมมติทีมตัดสินใจว่า:
+
+- **Admin / Super Admin** → ควรเห็น Fund Performance (ไม่ต้องแก้อะไร เพราะ default ของ `verifyVisibleAllExcept([])` คือเห็นทุกเมนูอยู่แล้ว)
+- **IIC** → **ไม่ควร**เห็น Fund Performance
+
+ก็ต้องไปแก้ Assertion ของ Preset IIC ทั้ง 2 ไฟล์ ให้เพิ่ม `'fundPerformance'` เข้าไปใน array ที่ซ่อน:
+
+```typescript
+// user-permission-admin-preset.spec.ts — TC-015 (Preset IIC บน Account ตัวเอง)
+await test.step('2. Expected: เห็น Sidebar Menu ตาม Preset IIC', async () => {
+-  await sidebar.verifyVisibleAllExcept(['invoices']);
++  await sidebar.verifyVisibleAllExcept(['invoices', 'fundPerformance']);
+});
+```
+
+```typescript
+// user-permission-other-preset.spec.ts — TC-042 (Preset IIC บน Other Role)
+await test.step('2. Expected: เห็น Sidebar Menu ตาม Preset IIC', async () => {
+-  await sidebar.verifyVisibleAllExceptForNonAdmin(['invoices']);
++  await sidebar.verifyVisibleAllExceptForNonAdmin(['invoices', 'fundPerformance']);
+});
+```
+
+> ต้องไล่เช็คทีละ Preset (Super Admin, Admin, MD, Assistant, IIC, Accountant, Indego Sales) ว่าแต่ละตัวควรเห็นเมนูใหม่หรือไม่ — ถ้าข้าม Preset ไหนไป Test ของ Preset นั้นจะ fail ทันทีตอนรันจริง (เพราะ Sidebar แสดงเมนูใหม่ แต่ Test ไม่รู้ว่าต้องคาดหวังแบบนั้น)
+
+> **สรุปสั้นๆ:** เพิ่ม Feature ใหม่ที่มี Permission = เพิ่ม Locator ใน `Sidebar.ts` (ข้อ 1) + เพิ่ม Permission Path ใน `PermissionSettingPage.ts` (ข้อ 2) + เพิ่ม Test Case ในไฟล์ `.spec.ts` (ข้อ 3) + ไล่แก้ Assertion ของทุก Preset ที่ได้รับผลกระทบ (ข้อ 4) เรียงตามลำดับ ข้ามข้อ 1 หรือ 2 ไปแล้ว Test Case ใหม่จะ error ทันทีตอนรัน ส่วนข้ามข้อ 4 จะทำให้ Test ของ Preset เดิม fail เพราะเห็นเมนูที่ไม่ได้คาดไว้
 
 ### ถ้าต้องการ Test หน้าใหม่ที่ยังไม่มี Page Object
 
